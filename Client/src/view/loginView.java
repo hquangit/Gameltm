@@ -133,6 +133,8 @@ public class loginView extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "\"Invalid username and/or password!");            
         }
         con.closeConnection();
+        
+        //this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
