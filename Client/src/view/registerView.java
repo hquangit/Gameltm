@@ -131,7 +131,7 @@ public class registerView extends javax.swing.JFrame {
         con.openConnection();
         con.sendData(register);
         
-        String result = con.receiveData();
+        Object result = con.receiveData();
         if(result.equals("ok")){
             JOptionPane.showMessageDialog(null, "\"Insert succesfully!");
         }

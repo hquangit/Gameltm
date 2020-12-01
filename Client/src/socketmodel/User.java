@@ -42,18 +42,21 @@ public class User implements Serializable{
     }
 
     public User() {
+        this.online=0;
     }
 
     public User(int id, String username, String password) {
         this.id = id;
         this.username = username;
         this.password = password;
+        this.online=0;
     }
 
     public User(String username, String password) {
         this.username = username;
         this.password = password;
         this.online = 0;
+        this.online=0;
     }
 
     public int getOnline() {
@@ -64,9 +67,15 @@ public class User implements Serializable{
         this.online = online;
     }
 
+    public User(int id, String username) {
+        this.id = id;
+        this.username = username;
+        this.online=0;
+    }
     
-    
-    
+    public Object[] toObject(){
+        return new Object[]{id, username};
+    }
     public static void main(String[] args) {
         
     }

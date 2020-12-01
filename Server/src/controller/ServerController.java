@@ -22,6 +22,7 @@ import java.util.logging.Logger;
 import socketmodel.Login;
 import socketmodel.Register;
 import socketmodel.User;
+import socketmodel.UserOnline;
 
 /**
  *
@@ -92,6 +93,29 @@ public class ServerController {
                 else
                     oos.writeObject("false");
             }
+            
+            else if(o instanceof UserOnline){
+                ArrayList<User> useronline = new ArrayList();
+                String sql = "SELECT idusers, username FROM users WHERE online = ?";
+                PreparedStatement stmt;
+                try {
+                    stmt = con.prepareStatement(sql);
+                    stmt.setInt(1, 1);
+                    ResultSet rs = stmt.executeQuery();
+                    while(rs.next()){
+                        int id = rs.getInt("idusers");
+                        String username = rs.getString("username");
+                        User user = new User(id,username);
+                        useronline.add(user);
+                    }
+                                       
+                } catch (SQLException ex) {
+                    Logger.getLogger(ServerController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+               
+                UserOnline userOnl = new UserOnline(useronline);
+                oos.writeObject(userOnl);
+            }
         } catch (IOException ex) {
             ex.printStackTrace();
         } catch (ClassNotFoundException ex) {
@@ -100,12 +124,14 @@ public class ServerController {
     }
     
     private void insertUser(User user){
-        String query = "INSERT INTO users (username, password) VALUES (?, ?)";
+        String query = "INSERT INTO users (username, password,online) VALUES (?, ?, ?)";
+        PreparedStatement stmt;
         try {
-            PreparedStatement stmt = con.prepareStatement(query);
+            stmt = con.prepareStatement(query);
             stmt.setString(1, user.getUsername());
             stmt.setString(2, user.getPassword());
-            stmt.execute();
+            stmt.setInt(3, 0);
+            stmt.executeUpdate();
             
         } catch (SQLException ex) {
             Logger.getLogger(ServerController.class.getName()).log(Level.SEVERE, null, ex);

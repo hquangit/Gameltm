@@ -124,9 +124,12 @@ public class loginView extends javax.swing.JFrame {
         con.openConnection();
         con.sendData(login);
         
-        String result = con.receiveData();
+        Object result = con.receiveData();
         if(result.equals("ok")){
-            JOptionPane.showMessageDialog(null, "\"Login succesfully!");            
+        //    JOptionPane.showMessageDialog(null, "\"Login succesfully!");  
+            userView uv = new userView();
+            uv.setVisible(true);
+            this.dispose();
         }
             
         else{

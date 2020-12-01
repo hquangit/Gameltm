@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 import socketmodel.Login;
 import socketmodel.Register;
 import socketmodel.User;
+import socketmodel.UserOnline;
 
 /**
  *
@@ -47,6 +48,10 @@ public class ClientController {
             ob = (Register) ob;
         }
         
+        else if(ob instanceof UserOnline){
+            ob = (UserOnline) ob;
+        }
+        
         try {
             ObjectOutputStream oos = new ObjectOutputStream(mySocket.getOutputStream());
             oos.writeObject(ob);
@@ -58,14 +63,18 @@ public class ClientController {
         return true;
     }
 
-    public String receiveData() {
-        String result = null;
+    public Object receiveData() {
+        Object result = null;
         try {
             ObjectInputStream ois = new ObjectInputStream(mySocket.getInputStream());
             Object o = ois.readObject();
 
             if (o instanceof String) {
                 result = (String) o;
+            }
+            
+            if(o instanceof UserOnline){
+                 result = (UserOnline) o;
             }
 
         } catch (IOException ex) {
