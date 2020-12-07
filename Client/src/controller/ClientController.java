@@ -12,6 +12,7 @@ import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import socketmodel.Login;
+import socketmodel.Message;
 import socketmodel.Register;
 import socketmodel.User;
 import socketmodel.UserOnline;
@@ -52,6 +53,10 @@ public class ClientController {
             ob = (UserOnline) ob;
         }
         
+        else if(ob instanceof Message){
+            ob = (Message) ob;
+        }
+        
         try {
             ObjectOutputStream oos = new ObjectOutputStream(mySocket.getOutputStream());
             oos.writeObject(ob);
@@ -73,10 +78,13 @@ public class ClientController {
                 result = (String) o;
             }
             
-            if(o instanceof UserOnline){
+            else if(o instanceof UserOnline){
                  result = (UserOnline) o;
             }
-
+            
+            else if(o instanceof Message){
+                result = (Message) result;
+            }
         } catch (IOException ex) {
             Logger.getLogger(ClientController.class.getName()).log(Level.SEVERE, null, ex);
             return null;

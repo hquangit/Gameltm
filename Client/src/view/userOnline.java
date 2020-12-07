@@ -8,6 +8,8 @@ package view;
 import controller.ClientController;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
+import socketmodel.Invite;
+import socketmodel.Message;
 import socketmodel.User;
 import socketmodel.UserOnline;
 
@@ -36,6 +38,21 @@ public class userOnline extends javax.swing.JDialog {
         tbl.setRowCount(0);
         for(User i : listUserOnl){
             tbl.addRow(i.toObject());
+        }
+        
+        Object ob = null;
+        ob = loginView.con.receiveData();
+        if(ob != null){
+            if(ob instanceof Message){
+                Message mess = (Message) ob;
+                String str = mess.getMess();
+                if(str == null){
+                    System.out.println("Da gui den client 2");
+                }
+            }
+        }
+        else{
+            System.out.println("Chua nhan duoc yeu cau");
         }
     }
 
@@ -113,8 +130,18 @@ public class userOnline extends javax.swing.JDialog {
         // TODO add your handling code here:
         int index = jTable1.getSelectedRow();
         int id = (int) tbl.getValueAt(index, 0);        
+        String username = (String)tbl.getValueAt(index, 1);
         
-        System.out.println(id);
+        User user = new User(id, username);
+        Invite invite = new Invite(user);
+        
+        loginView.con.sendData(invite);
+        Message mess = (Message) loginView.con.receiveData();
+        String temp = mess.getMess();
+        if(temp.equals("invite")){
+            
+        }
+        
         
     }//GEN-LAST:event_jButton1ActionPerformed
 

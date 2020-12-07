@@ -9,6 +9,7 @@ import controller.ClientController;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JTable;
+import socketmodel.Message;
 import socketmodel.User;
 import socketmodel.UserOnline;
 
@@ -23,6 +24,21 @@ public class userView extends javax.swing.JFrame {
      */
     public userView() {
         initComponents();
+        
+        Object ob = null;
+        ob = loginView.con.receiveData();
+        if(ob != ""){
+            if(ob instanceof Message){
+                Message mess = (Message) ob;
+                String str = mess.getMess();
+                if(str == null){
+                    System.out.println("Da gui den client 2");
+                }
+            }
+        }
+        else{
+            System.out.println("Chua nhan duoc yeu cau");
+        }
     }
 
     /**

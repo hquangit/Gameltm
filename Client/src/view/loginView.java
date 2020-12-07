@@ -18,6 +18,8 @@ public class loginView extends javax.swing.JFrame {
     /**
      * Creates new form loginView
      */
+    public static ClientController con;
+    
     public loginView() {
         initComponents();
     }
@@ -119,7 +121,7 @@ public class loginView extends javax.swing.JFrame {
         User user = new User(username, password);
         Login login = new Login(user);
         
-        ClientController con = new ClientController();
+        con = new ClientController();
         
         con.openConnection();
         con.sendData(login);
